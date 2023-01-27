@@ -98,7 +98,7 @@ const TypingPage = () => {
           })}
         </p>
         <Input
-          placeholder="Enter..."
+          placeholder="Start Typing..."
           value={inputValue}
           onChange={(e) => {
             processInput(e.target.value)
