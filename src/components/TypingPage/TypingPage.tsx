@@ -1,5 +1,5 @@
 import { MenuOutlined } from '@ant-design/icons'
-import { Button, Input } from 'antd'
+import { Avatar, Button, Input } from 'antd'
 import React, { useEffect, useRef, useState } from 'react'
 import { memo } from 'react'
 import { paragraphs } from '../../data/paragraphs'
@@ -81,57 +81,63 @@ const TypingPage = () => {
   }
 
   return (
-    <div className="w-[100vw] h-[100vh]">
-      <div className="header flex items-center  p-4 bg-[#98C5E4] shadow-md px-12">
-        <span className="text-[28px] font-semibold m-auto">Typing Test</span>
+    <div className="w-[100vw] h-[100vh] bg-[#F7FFF7]">
+      <div className="header flex items-center  p-4 bg-[#98C5E4] shadow-md px-12 z-20">
         <MenuOutlined className="cursor-pointer" />
+        <span className="text-[28px] font-semibold m-auto">Typing Test</span>
+        <Avatar>S</Avatar>
       </div>
-      <div className="Scores flex w-full justify-center my-12 ">
-        <div className="p-3 border-solid border-[#98C5E4] border-[1px] rounded-md shadow-inner shadow-lg">
-          <Timer
-            startCounting={startCounting}
-            correctWords={correctWordArray.filter(Boolean).length}
-          />
-        </div>
-      </div>
-      <div className="w-full flex justify-center">
-        <div className="w-[60%]">
-          <div className="p-4 border-solid border-[1px] border-[#e0e0e0] rounded-md mb-4 bg-[#FFFDD0]">
-            <p>
-              {parah.current.map((word, index) => {
-                return (
-                  <Word
-                    text={word}
-                    active={index === activeWordIndex}
-                    correct={correctWordArray[index]}
-                  />
-                )
-              })}
-            </p>
-          </div>
-          {!finish && (
-            <Input
-              placeholder="Start Typing..."
-              value={inputValue}
-              onChange={(e) => {
-                processInput(e.target.value)
-              }}
+      <div>
+        <div className="Scores flex w-full justify-center my-12 ">
+          <div className="p-3 border-solid border-[#98C5E4] border-[1px] rounded-md shadow-inner shadow-lg">
+            <Timer
+              startCounting={startCounting}
+              correctWords={correctWordArray.filter(Boolean).length}
             />
-          )}
-          {finish && (
-            <div className="flex justify-center items-center">
-              <span className="text-green-500 text-[24px] font-bold">
-                Completed!
-              </span>
+          </div>
+        </div>
+        <div className="w-full flex justify-center ">
+          <div className="w-[60%]">
+            <div className="p-4 border-solid border-[1px] border-[#e0e0e0] rounded-md mb-8 bg-[#FFFDD0]">
+              <p>
+                {parah.current.map((word, index) => {
+                  return (
+                    <Word
+                      text={word}
+                      active={index === activeWordIndex}
+                      correct={correctWordArray[index]}
+                    />
+                  )
+                })}
+              </p>
             </div>
-          )}
+            {!finish && (
+              <div className="w-full flex justify-center">
+                <Input
+                  placeholder="Start Typing..."
+                  value={inputValue}
+                  onChange={(e) => {
+                    processInput(e.target.value)
+                  }}
+                  className="w-[80%]"
+                />
+              </div>
+            )}
+            {finish && (
+              <div className="flex justify-center items-center my-8">
+                <span className="text-green-500 text-[24px] font-bold">
+                  Completed!
+                </span>
+              </div>
+            )}
+          </div>
         </div>
+        {finish && (
+          <div className="w-full flex justify-center items-center">
+            <Button onClick={() => window.location.reload()}>Restart</Button>
+          </div>
+        )}
       </div>
-      {finish && (
-        <div className="w-full flex justify-center items-center mt-12">
-          <Button onClick={() => window.location.reload()}>Restart</Button>
-        </div>
-      )}
     </div>
   )
 }
