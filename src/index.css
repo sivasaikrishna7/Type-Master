@@ -1,5 +1,6 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+@import "tailwindcss/base";
 @font-face {
   font-family: 'Lato';
   src: url('./assets/fonts/Lato-Regular.ttf') format('truetype');

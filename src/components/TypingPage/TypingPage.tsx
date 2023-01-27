@@ -1,4 +1,5 @@
-import { Input } from 'antd'
+import { MenuOutlined } from '@ant-design/icons'
+import { Button, Input } from 'antd'
 import React, { useEffect, useRef, useState } from 'react'
 import { memo } from 'react'
 
@@ -30,13 +31,14 @@ const Timer: any = (props: any) => {
         1000
       )
     }
+
     return () => {
       clearInterval(id)
     }
   }, [startCounting])
   const minutes = timeElapsed / 60
   return (
-    <div>
+    <div className="flex justify-center items-center p-2 flex-col">
       <div>Time: {timeElapsed}</div>
       <div>Speed: {(correctWords / minutes || 0).toFixed(2)} WPM</div>
     </div>
@@ -78,32 +80,45 @@ const TypingPage = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 w-full h-[100vh]">
-      <div className="w-[60%]">
-        {' '}
-        <span>Typing Test</span>
-        <Timer
-          startCounting={startCounting}
-          correctWords={correctWordArray.filter(Boolean).length}
-        />
-        <p>
-          {parah.current.map((word, index) => {
-            return (
-              <Word
-                text={word}
-                active={index === activeWordIndex}
-                correct={correctWordArray[index]}
-              />
-            )
-          })}
-        </p>
-        <Input
-          placeholder="Start Typing..."
-          value={inputValue}
-          onChange={(e) => {
-            processInput(e.target.value)
-          }}
-        />
+    <div className="w-[100vw] h-[100vh]">
+      <div className="header flex items-center  p-4 bg-[#98C5E4] shadow-md px-12">
+        <span className="text-[28px] font-semibold m-auto">Typing Test</span>
+        <MenuOutlined className="cursor-pointer" />
+      </div>
+      <div className="Scores flex w-full justify-center my-12 ">
+        <div className="p-3 border-solid border-[#98C5E4] border-[1px] rounded-md shadow-inner shadow-lg">
+          <Timer
+            startCounting={startCounting}
+            correctWords={correctWordArray.filter(Boolean).length}
+          />
+        </div>
+      </div>
+      <div className="w-full flex justify-center">
+        <div className="w-[60%]">
+          <div className="p-4 border-solid border-[1px] border-[#e0e0e0] rounded-md mb-4 bg-[#FFFDD0]">
+            <p>
+              {parah.current.map((word, index) => {
+                return (
+                  <Word
+                    text={word}
+                    active={index === activeWordIndex}
+                    correct={correctWordArray[index]}
+                  />
+                )
+              })}
+            </p>
+          </div>
+          <Input
+            placeholder="Start Typing..."
+            value={inputValue}
+            onChange={(e) => {
+              processInput(e.target.value)
+            }}
+          />
+        </div>
+      </div>
+      <div className="w-full flex justify-center items-center mt-12">
+        <Button onClick={() => window.location.reload()}>Restart</Button>
       </div>
     </div>
   )
