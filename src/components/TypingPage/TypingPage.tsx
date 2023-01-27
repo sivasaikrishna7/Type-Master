@@ -2,11 +2,10 @@ import { MenuOutlined } from '@ant-design/icons'
 import { Button, Input } from 'antd'
 import React, { useEffect, useRef, useState } from 'react'
 import { memo } from 'react'
+import { paragraphs } from '../../data/paragraphs'
 
-const getCloud = () =>
-  `Keep in mind that ScrollViews must have a bounded height in order to work, since they contain unbounded-height children into a bounded container (via a scroll interaction). In order to bound the height of a ScrollView, either set the height of the view directly (discouraged) or make sure all parent views have bounded height.`
-    .split(' ')
-    .sort(() => (Math.random() > 0.5 ? 1 : -1))
+const getCloud = () => paragraphs[Math.floor(Math.random() * 20)].split(' ')
+
 const Word = memo((props: any) => {
   const { text, active, correct } = props
   if (correct === true) {
@@ -51,10 +50,11 @@ const TypingPage = () => {
   const parah = useRef(getCloud())
   const [correctWordArray, setCorrectWordArray] = useState<any>([])
   const [startCounting, setStartCounting] = useState<boolean>(false)
+  const [finish, setFinish] = useState<boolean>(false)
 
   useEffect(() => {
-    console.log(startCounting)
-  }, [startCounting])
+    console.log(paragraphs.length)
+  }, [])
 
   const processInput = (value: string) => {
     if (value.endsWith(' ')) {
@@ -62,6 +62,7 @@ const TypingPage = () => {
       if (!startCounting) setStartCounting(true)
       if (activeWordIndex === parah.current.length - 1) {
         setStartCounting(false)
+        setFinish(true)
         setInputValue('completed')
       } else {
         setInputValue('')
@@ -108,18 +109,29 @@ const TypingPage = () => {
               })}
             </p>
           </div>
-          <Input
-            placeholder="Start Typing..."
-            value={inputValue}
-            onChange={(e) => {
-              processInput(e.target.value)
-            }}
-          />
+          {!finish && (
+            <Input
+              placeholder="Start Typing..."
+              value={inputValue}
+              onChange={(e) => {
+                processInput(e.target.value)
+              }}
+            />
+          )}
+          {finish && (
+            <div className="flex justify-center items-center">
+              <span className="text-green-500 text-[24px] font-bold">
+                Completed!
+              </span>
+            </div>
+          )}
         </div>
       </div>
-      <div className="w-full flex justify-center items-center mt-12">
-        <Button onClick={() => window.location.reload()}>Restart</Button>
-      </div>
+      {finish && (
+        <div className="w-full flex justify-center items-center mt-12">
+          <Button onClick={() => window.location.reload()}>Restart</Button>
+        </div>
+      )}
     </div>
   )
 }
